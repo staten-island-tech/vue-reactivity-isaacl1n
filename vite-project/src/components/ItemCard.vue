@@ -11,7 +11,7 @@
   import { forSale } from '../stores/catalog.js';
 
   function addToCart() {
-        
+    
   }
 </script>
 
@@ -40,6 +40,10 @@
     border-style: hidden;
     font-family: "Montserrat", sans-serif;
     font-size: 100%;
+    transition: transform .5s;
     cursor: pointer;
+  }
+  .add-button:hover {
+    transform: scale(1.25);
   }
 </style>
