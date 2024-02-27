@@ -1,17 +1,40 @@
 <template>
-  <div class="cart-card">
-    <h3 class="item-name"></h3>
-    <p class="item-price"></p>
+  <div class="cart-card" v-for="item in cart">
+    <h3 class="item-name">{{ item.name }}</h3>
+    <p class="item-price">${{ item.cost }}</p>
     <div class="quantity">
-      <button class="quantity-add"></button>
-      <h3 class="quantity-count"></h3>
-      <button class="quantity-subtract"></button>
+      <button class="quantity-add" @click="add(item)">+</button>
+      <h3 class="quantity-count">{{ item.quantity }}</h3>
+      <button class="quantity-subtract" @click="subtract(item)">-</button>
     </div>
   </div>
 </template>
 
-<script setup>
+<script>
+  import { cart } from '../stores/cart.js'
 
+  export default {
+    data() {
+      return {
+        cart: cart,
+      };
+    },
+    methods: {
+      add(item) {
+        item.quantity++;
+      },
+      subtract(item, index) {
+        if (item.quantity > 1) {
+          item.quantity--;
+        } else {
+          const index = cart.indexOf(item);
+          if (index !== -1) {
+            cart.splice(index, 1);
+          };
+        };
+      },
+    },
+  };
 </script>
 
 <style scoped>

@@ -1,18 +1,42 @@
 <template>
-  <div class="item-card" v-for="item in forSale">
+  <div class="item-card" v-for="item in forSale" :key="item.name">
     <img :src="item.img" :alt="item.name" class="item-img">
     <h2 class="item-name">{{ item.name }}</h2>
     <p class="item-price">${{ item.cost }}</p>
-    <button @click="addToCart" class="add-button">🛒 Add to Cart</button>
+    <button @click="addToCart(item)" class="add-button">🛒 Add to Cart</button>
   </div>
 </template>
 
-<script setup>
+<script>
   import { forSale } from '../stores/catalog.js';
+  import { cart } from '../stores/cart.js'
 
-  function addToCart() {
-    
-  }
+  export default {
+    data() {
+      return {
+        forSale: forSale,
+      };
+    },
+    methods: {
+      addToCart(item) {
+        let duplicate = false;
+        for(let i = 0; i < cart.length; i++) {
+          if (cart[i].name === item.name) {
+            duplicate = true;
+            cart[i].quantity++;
+          };
+        };
+        if (!duplicate) {
+          cart.push({
+            name: item.name,
+            cost: item.cost,
+            quantity: 1,
+          });
+        };
+        console.log(cart);
+      },
+    },
+  };
 </script>
 
 <style scoped>
