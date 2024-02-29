@@ -1,7 +1,7 @@
 <template>
   <div class="cart-card" v-for="item in cart">
     <h3 class="item-name">{{ item.name }}</h3>
-    <p class="item-price">${{ item.cost }}</p>
+    <p class="item-price">${{ item.itemTotal }}</p>
     <div class="quantity">
       <button class="quantity-add" @click="add(item)">+</button>
       <h3 class="quantity-count">{{ item.quantity }}</h3>
@@ -12,6 +12,7 @@
 
 <script>
   import { cart } from '../stores/cart.js'
+  import { calculateItemTotal } from '../stores/cart.js'
 
   export default {
     data() {
@@ -22,10 +23,12 @@
     methods: {
       add(item) {
         item.quantity++;
+        calculateItemTotal()
       },
-      subtract(item, index) {
+      subtract(item) {
         if (item.quantity > 1) {
           item.quantity--;
+          calculateItemTotal()
         } else {
           const index = cart.indexOf(item);
           if (index !== -1) {

@@ -1,19 +1,15 @@
 <script setup>
-  import { ref } from 'vue'
-  import { storeToRefs } from 'pinia';
-  const header = ref('header')
-
-  // const store = ref('store')
-  // import {useCatalog} from "@/stores/catalog.js"
-  //   const catalog = useCatalog()
-  //   // console.log(catalog)
-  //   const {items} = storeToRefs(catalog)
-  //   console.log(items)
-  
+  import { computed, ref } from 'vue'
   import ItemCard from './components/ItemCard.vue'
   import CartCard from './components/CartCard.vue'
-  import { cart } from './stores/cart'
-  
+  import { cart } from './stores/cart.js'
+
+  const header = ref('header')
+  const finalCost = computed(() => {
+    return cart.reduce((total, item) => 
+      total + item.itemTotal, 0
+    );
+  });
 </script>
 
 <template>
@@ -25,10 +21,9 @@
     </div>
   </div>
   <div id="website">
-    <!-- <h1 style="color:white" v-for="item in items">{{ item }}</h1> -->
     <div id="cart">
       <h2 class="subtitle">Your Cart</h2>
-      <h3 id="total-cost">Total Cost: $</h3>
+      <h3 id="total-cost">Total Cost: ${{finalCost}}</h3>
       <div id="cart-content">
         <CartCard/>
       </div>

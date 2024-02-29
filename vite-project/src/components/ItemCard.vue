@@ -2,7 +2,7 @@
   <div class="item-card" v-for="item in forSale" :key="item.name">
     <img :src="item.img" :alt="item.name" class="item-img">
     <h2 class="item-name">{{ item.name }}</h2>
-    <p class="item-price">${{ item.cost }}</p>
+    <p class="item-price">${{ item.unitCost }}</p>
     <button @click="addToCart(item)" class="add-button">🛒 Add to Cart</button>
   </div>
 </template>
@@ -24,13 +24,15 @@
           if (cart[i].name === item.name) {
             duplicate = true;
             cart[i].quantity++;
+            cart[i].itemTotal = cart[i].unitCost * cart[i].quantity;
           };
         };
         if (!duplicate) {
           cart.push({
             name: item.name,
-            cost: item.cost,
+            unitCost: item.unitCost,
             quantity: 1,
+            itemTotal: item.unitCost,
           });
         };
         console.log(cart);
